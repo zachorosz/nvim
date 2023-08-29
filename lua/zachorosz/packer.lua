@@ -12,14 +12,35 @@ return require('packer').startup(function(use)
     }
 
     use('p00f/alabaster.nvim')
+
     use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
     use('nvim-treesitter/playground')
+
+    use {
+        'williamboman/mason.nvim',
+        'williamboman/mason-lspconfig.nvim',
+        'neovim/nvim-lspconfig',
+    }
+
+    use {
+        'hrsh7th/cmp-nvim-lsp',
+        'hrsh7th/cmp-buffer',
+        'hrsh7th/cmp-path',
+        'hrsh7th/nvim-cmp',
+    }
+
+    use {
+        'L3MON4D3/LuaSnip',
+        'saadparwaiz1/cmp_luasnip'
+    }
+
+    use('jose-elias-alvarez/null-ls.nvim')
+
     use('folke/trouble.nvim')
+
     use('tpope/vim-fugitive')
 
-    use('neovim/nvim-lspconfig')
-    use('ray-x/go.nvim')
-    --    use {
+    use('folke/which-key.nvim')
     --        'VonHeikemen/lsp-zero.nvim',
     --        branch = 'v1.x',
     --        requires = {
