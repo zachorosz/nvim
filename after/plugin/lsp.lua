@@ -2,6 +2,7 @@ require('mason').setup()
 require('mason-lspconfig').setup()
 
 local servers = {
+    bufls = {},
     gopls = {
         settings = {
             gopls = {
@@ -46,6 +47,9 @@ vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
 local lsp_formatting = function(bufnr)
     vim.lsp.buf.format({
         filter = function(client)
+            if client.name == "lua_ls" then
+                return true
+            end
             return client.name == "null-ls"
         end,
         bufnr = bufnr,
@@ -64,31 +68,27 @@ local on_attach = function(client, bufnr)
         })
     end
 
-    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-    local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
     -- Enable completion triggered by <c-x><c-o>
-    buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
     -- Buffer local mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions
-    buf_set_keymap('n', 'gD', vim.lsp.buf.declaration)
-    buf_set_keymap('n', 'gd', vim.lsp.buf.definition)
-    buf_set_keymap('n', 'K', vim.lsp.buf.hover)
-    buf_set_keymap('n', 'gi', vim.lsp.buf.implementation)
-    buf_set_keymap('n', '<C-k>', vim.lsp.buf.signature_help)
-    buf_set_keymap('n', '<leader>D', vim.lsp.buf.type_definition)
-    buf_set_keymap('n', '<leader>rn', vim.lsp.buf.rename)
-    buf_set_keymap({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action)
-    buf_set_keymap('n', 'gr', vim.lsp.buf.references)
-    buf_set_keymap('n', '<leader>f', function() vim.lsp.buf.format { async = true } end)
+    local opts = { buffer = bufnr, noremap = true, silent = true }
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+    vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
+    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+    vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', '<leader>f', function() vim.lsp.buf.format({ async = true }) end, opts)
 end
 
 for server, cfg in pairs(servers) do
-    lspconfig[server].setup(vim.tbl_deep_extend("force", {
-        on_attach = on_attach,
-        capabilities = capabilities,
-    }, cfg))
+    cfg = vim.tbl_deep_extend("force", { on_attach = on_attach, capabilities = capabilities }, cfg)
+    lspconfig[server].setup(cfg)
 end
 
 local cmp = require('cmp')
