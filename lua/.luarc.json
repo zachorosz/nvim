@@ -1,3 +1,21 @@
 {
-    "workspace.checkThirdParty": false
+    "workspace.library": [
+        "/Users/zach/.config/nvim",
+        "/Users/zach/.local/share/nvim/site",
+        "/Users/zach/.local/share/nvim/lazy/lazy.nvim",
+        "/Users/zach/.local/share/nvim/lazy/mason-lspconfig.nvim",
+        "/Users/zach/.local/share/nvim/lazy/mason.nvim",
+        "/Users/zach/.local/share/nvim/lazy/nvim-lspconfig",
+        "/Users/zach/.local/share/nvim/lazy/vim-fugitive",
+        "/Users/zach/.local/share/nvim/lazy/nvim-treesitter-textobjects",
+        "/Users/zach/.local/share/nvim/lazy/nvim-treesitter",
+        "/Users/zach/.local/share/nvim/lazy/null-ls.nvim",
+        "/Users/zach/.local/share/nvim/lazy/alabaster.nvim",
+        "/usr/local/Cellar/neovim/0.9.1/share/nvim/runtime",
+        "/usr/local/Cellar/neovim/0.9.1/share/nvim/runtime/pack/dist/opt/matchit",
+        "/usr/local/Cellar/neovim/0.9.1/lib/nvim",
+        "/Users/zach/.local/state/nvim/lazy/readme",
+        "/Users/zach/.local/share/nvim/lazy/alabaster.nvim/after",
+        "${3rd}/luassert/library"
+    ]
 }
