@@ -58,8 +58,6 @@ return {
 						unusedparams = true,
 					},
 					staticcheck = true,
-				},
-				init_options = {
 					usePlaceholders = true,
 				},
 			},
