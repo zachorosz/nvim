@@ -1,5 +1,4 @@
 return {
-	"tpope/vim-fugitive",
 	{
 		"p00f/alabaster.nvim",
 		priority = 1000,
