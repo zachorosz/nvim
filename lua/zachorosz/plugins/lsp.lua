@@ -50,6 +50,9 @@ return {
 			nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
 		end
 
+		local capabilities = vim.lsp.protocol.make_client_capabilities()
+		capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+
 		local servers = {
 			bufls = {},
 			gopls = {
@@ -64,11 +67,19 @@ return {
 			lua_ls = {
 				Lua = {
 					diagnostics = {
-						globals = { "vim" },
+						globals = {
+							"vim",
+							-- AwesomeWM
+							"awesome",
+							"client",
+							"root",
+						},
 					},
 					workspace = {
-						-- make server aware of Neovim runtime files
-						library = vim.api.nvim_get_runtime_file("", true),
+						library = {
+							vim.env.VIMRUNTIME,
+							"/usr/share/awesome/lib",
+						},
 					},
 					telemetry = {
 						enabled = false,
@@ -76,9 +87,6 @@ return {
 				},
 			},
 		}
-
-		local capabilities = vim.lsp.protocol.make_client_capabilities()
-		capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 		local mason_lspconfig = require("mason-lspconfig")
 
