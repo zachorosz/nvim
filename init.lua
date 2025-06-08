@@ -36,7 +36,7 @@ vim.opt.hlsearch = false
 vim.opt.incsearch = true
 vim.opt.scrolloff = 8
 vim.opt.termguicolors = true
-vim.opt.completeopt = { "menuone", "noinsert", "preview" }
+vim.opt.completeopt = { "menuone", "noselect", "popup" }
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -128,6 +128,9 @@ require("lazy").setup({
 vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('my.lsp', {}),
     callback = function(args)
+        vim.keymap.set("n", "grr", require("telescope.builtin").lsp_references)
+        vim.keymap.set("n", "grd", vim.lsp.buf.definition)
+
         local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
         if client:supports_method('textDocument/implementation') then
             -- Create a keymap for vim.lsp.buf.implementation ...
